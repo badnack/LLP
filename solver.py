@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/pypy
+# use pypy since it's faster!
 
 import tokenizer
 import rule_base
@@ -11,6 +12,7 @@ from itertools import chain, combinations
 class Results:
   def __init__(self):
     self.name_mappings = dict()
+    self.to_print = list()
 
 class Solver:
   def __init__(self):
@@ -142,10 +144,12 @@ class Solver:
           # nb elements[0:1] works in both string and list contexts
           yield perm[:i] + elements[0:1] + perm[i:]
 
+  # should require 0 to be in the set!
   def _all_ordered_subsets(self, goals, n):
     for s in self.powerset(goals, n):
       for a in self.all_perms(s):
-        yield a
+        if 0 in a:
+          yield a
 
   def _recursive_solve(self, rules, goals, results, num_orig_rules, recursive_depth_left=100):
     if recursive_depth_left < 0:
@@ -175,7 +179,21 @@ class Solver:
 
       if num_printed == 0:
         print "True"
+        
+      #print stuff from results.to_print
+      for v in results.to_print:
+        while v.parent is not None:
+          v = v.parent
+        print_str = v.pp(True)
+        if print_str[0:5] != "_temp":
+          print print_str,
+      if len(results.to_print) > 0:
+        print ""
+
       print ""
+      #user_in = raw_input()
+      #if '.' in user_in:
+      #  sys.exit(0)
       return True
 
     # try matching in order of each var in goals and each rule in rules
@@ -215,7 +233,10 @@ class Solver:
 
           new_goals = []
           for v in temp_rule.right_side:
-            new_goals.append(v)
+            if v.name != "print":
+              new_goals.append(v)
+            else:
+              results_copy.to_print += v.subvars
           goals_copy = new_goals + goals_copy
           if self._recursive_solve(rules_copy, goals_copy, results_copy, num_orig_rules, \
                                   recursive_depth_left-1):

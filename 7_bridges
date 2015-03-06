@@ -1,0 +1,14 @@
+edge(a,b).
+edge(b,a).
+edge(b,c).
+
+edge(c,d).
+edge(d,a).
+edge(a,d).
+
+b_edge(X,Y) o- edge(Y,X).
+path(X,Y) o- edge(X,Z), path(Z,Y), print(X).
+path(X,Y) o- b_edge(X,Z), path(Z,Y), print(X).
+path(X,Y) o- edge(X,Y), print(X, Y).
+path(X,Y) o- b_edge(X,Y), print(X, Y).
+

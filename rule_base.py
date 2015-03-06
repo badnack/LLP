@@ -13,8 +13,9 @@ class Variable:
     ppstr = ""
     if self.var_type is None:
       pass
-    else:
-      ppstr += self.var_type
+# can uncomment for testing, but will output ! and @ to the user
+#    else:
+#      ppstr += self.var_type
 
     to_follow = self
     if follow_parent:
