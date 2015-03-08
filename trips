@@ -1,0 +1,9 @@
+trip_to(P, milan) o- liters(P, five).
+trip_to(P, pisa) o- liters(P, one), has(P, umbrella).
+trip_to(P, florence) o- liters(P, four).
+
+trip_to(P, nowhere) o- !liters(P, None). 
+
+
+@liters(alessia, one).
+@liters(jack, four).

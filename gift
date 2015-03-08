@@ -1,0 +1,8 @@
+buy(P, wallet) o- has_fifty(P).
+buy(P, guitar_amplifier) o- has_hundred(P).
+buy(P, cigars), buy(P, humidifier) o- has_hundred(P).
+buy(P, phone_cover) o- has_fifty(P).
+buy(P, pc_monitor) o- has_fifty(P), has_hundred(P).
+
+has_hundred(matt).
+has_fifty(matt).
